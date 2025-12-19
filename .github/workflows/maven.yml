@@ -25,5 +25,8 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Build Docker Image
-      run: docker build -t nikosnikolaidis/master-test-3:$(date +'%Y-%m-%d') .
+      run: |
+        echo ${{ secrets.DOCKER_TOKEN }} | docker login -u nikosnikolaidis --password-stdin
+        docker build -t nikosnikolaidis/master-test-3:$(date +'%Y-%m-%d') . 
+        docker push nikosnikolaidis/master-test-3:$(date +'%Y-%m-%d')
     
